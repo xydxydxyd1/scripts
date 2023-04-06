@@ -1,0 +1,27 @@
+#!/bin/bash
+# hwtest test_case_num
+# Run build/main with input/#.txt, check against expected/#.txt
+
+if [[ "$#" -ne 1 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+buf_file=temp.txt
+if test -f $buf_file; then
+    echo "Output buffer taken" >&2
+    exit 2
+fi
+
+case_num=$1
+input="input/$case_num.txt"
+expected="expected/$case_num.txt"
+
+# run program
+echo "Running test case $1..."
+build/main "$input" "$buf_file"
+
+# check output
+echo "diff $buf_file $expected"
+diff "$buf_file" "$expected"
+
+rm -f "$buf_file"

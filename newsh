@@ -1,0 +1,28 @@
+#!/bin/bash
+# newsh filename
+# set up a new shellscript
+if [[ "$#" -ne 1 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+filename=$1
+if test -f $filename; then
+    echo "$filename already exists" >&2
+    exit 2
+fi
+
+# Shellscript template
+cat << 'EOM' > "$filename"
+#!/bin/bash
+# filename TODO
+#
+if [[ "$#" -ne 1 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+EOM
+
+# Setup the rest
+chmod +x "$filename"
+vim "$filename"
