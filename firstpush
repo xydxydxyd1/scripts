@@ -1,0 +1,10 @@
+#!/bin/bash
+# firstpush
+# the first git push of a branch
+if [[ "$#" -ne 0 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 0
+fi
+
+branchname="$(git rev-parse --abbrev-ref HEAD)"
+git push --set-upstream origin "$branchname"
