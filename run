@@ -1,0 +1,8 @@
+#!/bin/bash
+# run cfile
+# quickly compile and run C file
+
+clang++ $1
+shift 2
+./a.out $@
+rm -rf a.out a.out.dSYM

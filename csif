@@ -1,0 +1,21 @@
+#!/bin/bash
+# csif computer# mode
+# Connect to school computers
+# 	Modes: 'c'ontrol computer, 't'ransfer files
+if [[ "$#" -gt 2 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+    computer_num=$1
+    shift 1
+else
+    computer_num=32
+fi
+
+if [[ -z "$1" || "$1" == 'c' ]]; then
+    ssh xydxydxy@pc"$computer_num".cs.ucdavis.edu
+elif [[ "$1" == 't' ]]; then
+    sftp xydxydxy@pc"$computer_num".cs.ucdavis.edu
+fi
