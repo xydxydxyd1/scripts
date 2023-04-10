@@ -1,8 +1,10 @@
 #!/bin/bash
 # Sets up a working environment with CMake
 if [[ "$(ls -A)" ]]; then
-    echo 'Directory not empty'
-    exit 1
+    read -r -p 'Directory not empty. Proceed? (y/n)' yn
+    if [[ "$yn" != 'y' ]]; then
+        exit 1
+    fi
 fi
 
 mkdir build
