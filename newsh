@@ -1,7 +1,7 @@
 #!/bin/bash
-# newsh filename
+# newsh scriptname arg1 arg2 ...
 # set up a new shellscript
-if [[ "$#" -ne 1 ]]; then
+if [[ "$#" -lt 1 ]]; then
     echo "Illegal number of parameters" >&2
     exit 1
 fi
@@ -12,12 +12,15 @@ if test -f $filename; then
     exit 2
 fi
 
+shift 1
+args=("$@")
+
 # Shellscript template
-cat << 'EOM' > "$filename"
+cat << EOM > "$filename"
 #!/bin/bash
-# filename TODO
+# ${filename} ${args[*]}
 #
-if [[ "$#" -ne 1 ]]; then
+if [[ "\$#" -ne ${#args[@]} ]]; then
     echo "Illegal number of parameters" >&2
     exit 1
 fi
