@@ -15,16 +15,19 @@ if [[ "$(pwd)" =~ ^.+/([^/]+)$ ]]; then
 fi
 
 cat << EOM > src/CMakeLists.txt
-cmake_minimum_required(VERSION 3.22)
-# Used by CSIF
-
-project(${proj})
-# Project Name and Version
+cmake_minimum_required(VERSION 3.22)	# Used by CSIF
+project(
+    ${proj}
+    VERSION 1.0
+    DESCRIPTION "description"			# TODO
+    LANGUAGE CXX
+    )
 
 # For YouCompleteMe
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(#TODO)
+add_executable(executable)			# TODO
+target_sources(executable PRIVATE source)	# TODO
 EOM
 
 git init
