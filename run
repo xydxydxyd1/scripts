@@ -2,7 +2,7 @@
 # run cfile
 # quickly compile and run C file
 
-clang++ $1 $cxxflags
-shift 2
-./a.out $@
+clang++ "$1" $CXXFLAGS
+shift 1
+./a.out "$@"
 rm -rf a.out a.out.dSYM
