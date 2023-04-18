@@ -14,7 +14,7 @@ if [[ "$(pwd)" =~ ^.+/([^/]+)$ ]]; then
     proj="${BASH_REMATCH[1]}"
 fi
 
-cat << EOM > src/CMakeLists.txt
+cat << EOM > CMakeLists.txt
 cmake_minimum_required(VERSION 3.22)	# Used by CSIF
 project(
     ${proj}

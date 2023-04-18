@@ -1,0 +1,18 @@
+#!/bin/bash
+# gtest_filter [-d] ...
+# set GTEST_FILTER env variable
+
+while getopts "d" opt; do
+    case $opt in
+	d)
+	    unset GTEST_FILTER
+	    exit 0;
+	    ;;
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    ;;
+    esac
+done
+
+export GTEST_FILTER="$*"
+echo $GTEST_FILTER
