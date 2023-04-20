@@ -14,16 +14,20 @@ if [[ "$(pwd)" =~ ^.+/([^/]+)$ ]]; then
     proj="${BASH_REMATCH[1]}"
 fi
 
+cat << EOM > .gitignore
+build
+EOM
+
 cat << EOM > CMakeLists.txt
 cmake_minimum_required(VERSION 3.22)	# Used by CSIF
 project(
     ${proj}
     VERSION 1.0
     DESCRIPTION "description"			# TODO
-    LANGUAGE CXX
+    LANGUAGES CXX
     )
 
-# For YouCompleteMe
+# For plugins like ALE
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(executable)			# TODO
