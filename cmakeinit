@@ -8,7 +8,6 @@ if [[ "$(ls -A)" ]]; then
 fi
 
 mkdir build
-mkdir src
 
 if [[ "$(pwd)" =~ ^.+/([^/]+)$ ]]; then
     proj="${BASH_REMATCH[1]}"
