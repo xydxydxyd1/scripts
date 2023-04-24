@@ -24,12 +24,8 @@ if [[ "\$#" -ne ${#args[@]} ]]; then
     echo "Illegal number of parameters" >&2
     exit 1
 fi
-while getopts "d" opt; do
+while getopts "" opt; do
     case \$opt in
-	d)
-	    unset GTEST_FILTER
-	    exit 0;
-	    ;;
 	\?)
 	    echo "Invalid option: -\$OPTARG" >&2
 	    ;;

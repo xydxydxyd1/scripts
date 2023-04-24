@@ -1,0 +1,9 @@
+#!/bin/bash
+# lcovgen 
+#
+if [[ "$#" -ne 0 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+genhtml code_coverage.info --branch-coverage --output-directory ./code_coverage_report/

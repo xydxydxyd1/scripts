@@ -1,0 +1,9 @@
+#!/bin/bash
+# lcovinit 
+#
+if [[ "$#" -ne 0 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+lcov --directory ./build/ --capture --output-file ./code_coverage.info -rc lcov_branch_coverage=1
