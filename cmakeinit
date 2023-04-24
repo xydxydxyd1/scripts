@@ -26,8 +26,10 @@ project(
     LANGUAGES CXX
     )
 
-# For plugins like ALE
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXECUTABLE_SUFFIX .out)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)	# For plugins such as ALE
 
 add_executable(executable)			# TODO
 target_sources(executable PRIVATE source)	# TODO

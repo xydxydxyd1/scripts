@@ -1,21 +1,26 @@
 #!/bin/bash
-# csif computer# mode
+# csif [-t] [-c computer_num]
 # Connect to school computers
 # 	Modes: 'c'ontrol computer, 't'ransfer files
-if [[ "$#" -gt 2 ]]; then
-    echo "Illegal number of parameters" >&2
-    exit 1
-fi
 
-if [[ "$1" =~ ^[0-9]+$ ]]; then
-    computer_num=$1
-    shift 1
-else
-    computer_num=32
-fi
+computer_num=32
+transfer_mode=0
+while getopts "tc:" opt; do
+    case $opt in
+	t)
+	    transfer_mode=1
+	    ;;
+	c)
+	    computer_num=$OPTARG
+	    ;;
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    ;;
+    esac
+done
 
-if [[ -z "$1" || "$1" == 'c' ]]; then
-    ssh xydxydxy@pc"$computer_num".cs.ucdavis.edu
-elif [[ "$1" == 't' ]]; then
+if [[ "$transfer_mode" == 1 ]]; then
     sftp xydxydxy@pc"$computer_num".cs.ucdavis.edu
+else
+    ssh xydxydxy@pc"$computer_num".cs.ucdavis.edu
 fi
