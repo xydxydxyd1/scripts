@@ -7,3 +7,4 @@ if [[ "$#" -ne 0 ]]; then
 fi
 
 genhtml code_coverage.info --branch-coverage --output-directory ./code_coverage_report/
+open ./code_coverage_report/index.html
