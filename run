@@ -1,11 +1,14 @@
 #!/bin/bash
-# run cfile
-# quickly compile and run C file
+# run [-x language] srcfile
+# quickly build and run file
 
+# gets build language
+# Supported: cxx, asm
 while getopts "x:" opt; do
     case $opt in
 	x)
 	    lang="$OPTARG"
+	    shift 2;
 	    ;;
 	\?)
 	    echo "Invalid option: -$OPTARG" >&2
@@ -14,20 +17,27 @@ while getopts "x:" opt; do
     esac
 done
 
-if [[ "$lang" == 'cxx' ]]; then
+# check for safe environment
+if [[ -f temp.o || -f temp.out ]]; then
+    read -r -p "temp may be deleted. Proceed? (y/n)" yn
+    if [[ "$yn" !=  y ]]; then
+	echo "Aborting..."
+        exit 1
+    fi
+fi
+
+if [[ "$lang" == '' || "$lang" == 'cxx' ]]; then
     $CXX "$1" $CXXFLAGS
     shift 1
     ./a.out "$@"
     rm -rf a.out a.out.dSYM
-elif [[ "$lang" =~ "asm" ]]; then
-    if [[ $1 =~ (.*)\.s ]] ; then
-        name="${BASH_REMATCH[0]}"
-	echo $name
-    else
-	echo "Fail to capture extension of $1" >&2
-	exit 1
-    fi
-    as --gstabs --32 -o "$name.o" "$name.s"
-    ld -melf_i386 -o "$name.out" "$name.o"
-    rm -rf "$name.out" "$name.o"
+
+elif [[ "$lang" == "asm" ]]; then
+    echo "Assembling $1..."
+    as --gstabs --32 -o "temp.o" "$1"
+    ld -melf_i386 -o "temp.out" "temp.o"
+
+    echo "Running temp.out"
+    gdb -tui "temp.out"
+    rm -rf "temp.out" "temp.o"
 fi
