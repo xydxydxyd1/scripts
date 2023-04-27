@@ -35,4 +35,4 @@ EOM
 
 # Setup the rest
 chmod +x "$filename"
-nvim "$filename"
+vim "$filename"

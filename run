@@ -2,7 +2,32 @@
 # run cfile
 # quickly compile and run C file
 
-$CXX "$1" $CXXFLAGS
-shift 1
-./a.out "$@"
-rm -rf a.out a.out.dSYM
+while getopts "x:" opt; do
+    case $opt in
+	x)
+	    lang="$OPTARG"
+	    ;;
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    exit 1
+	    ;;
+    esac
+done
+
+if [[ "$lang" == 'cxx' ]]; then
+    $CXX "$1" $CXXFLAGS
+    shift 1
+    ./a.out "$@"
+    rm -rf a.out a.out.dSYM
+elif [[ "$lang" =~ "asm" ]]; then
+    if [[ $1 =~ (.*)\.s ]] ; then
+        name="${BASH_REMATCH[0]}"
+	echo $name
+    else
+	echo "Fail to capture extension of $1" >&2
+	exit 1
+    fi
+    as --gstabs --32 -o "$name.o" "$name.s"
+    ld -melf_i386 -o "$name.out" "$name.o"
+    rm -rf "$name.out" "$name.o"
+fi

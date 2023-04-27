@@ -1,0 +1,11 @@
+#!/bin/bash
+# regex regex_exp thing_to_match
+# tries to match regex
+if [[ "$#" -ne 2 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+if [[ "$2" =~ $1 ]]; then
+    echo "$2 matches $1"
+fi
