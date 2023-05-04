@@ -1,14 +1,17 @@
 #!/bin/bash
-# run [-x language] srcfile
+# run [-x language] [-g] srcfile
 # quickly build and run file
+# Supported language: cxx (default), asm
 
-# gets build language
-# Supported: cxx, asm
-while getopts "x:" opt; do
+while getopts "x:g" opt; do
     case $opt in
 	x)
 	    lang="$OPTARG"
 	    shift 2;
+	    ;;
+	g)
+	    debug=1
+	    shift 1;
 	    ;;
 	\?)
 	    echo "Invalid option: -$OPTARG" >&2
@@ -26,12 +29,19 @@ if [[ -f temp.o || -f temp.out ]]; then
     fi
 fi
 
+# CXX
 if [[ "$lang" == '' || "$lang" == 'cxx' ]]; then
-    $CXX "$1" $CXXFLAGS
-    shift 1
-    ./a.out "$@"
+    if [[ "$debug" ]]; then
+	$CXX "$1" -g $CXXFLAGS
+	shift 1
+	gdb -tui a.out
+    else
+	$CXX "$1" $CXXFLAGS
+	shift 1
+	./a.out "$@"
+    fi
     rm -rf a.out a.out.dSYM
-
+# ASM
 elif [[ "$lang" == "asm" ]]; then
     echo "Assembling $1..."
     as --gstabs --32 -o "temp.o" "$1"
