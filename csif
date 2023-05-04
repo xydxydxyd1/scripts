@@ -1,23 +1,27 @@
 #!/bin/bash
-# csif [-t] [-c computer_num]
+# csif [-t] computer_num
 # Connect to school computers
-# 	Modes: 'c'ontrol computer, 't'ransfer files
+# 	Modes: control computer (default), 't'ransfer files
 
 computer_num=32
 transfer_mode=0
-while getopts "tc:" opt; do
+while getopts "t" opt; do
     case $opt in
 	t)
 	    transfer_mode=1
-	    ;;
-	c)
-	    computer_num=$OPTARG
+	    shift 1
 	    ;;
 	\?)
 	    echo "Invalid option: -$OPTARG" >&2
 	    ;;
     esac
 done
+
+if [[ "$1" ]]; then
+    computer_num="$1"
+fi
+
+echo "Connecting to computer $computer_num..."
 
 if [[ "$transfer_mode" == 1 ]]; then
     sftp xydxydxy@pc"$computer_num".cs.ucdavis.edu
