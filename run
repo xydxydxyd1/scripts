@@ -48,6 +48,6 @@ elif [[ "$lang" == "asm" ]]; then
     ld -melf_i386 -o "temp.out" "temp.o"
 
     echo "Running temp.out"
-    gdb -tui "temp.out"
+    gdb -tui -ex "b done" "temp.out"
     rm -rf "temp.out" "temp.o"
 fi
