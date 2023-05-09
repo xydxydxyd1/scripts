@@ -1,14 +1,26 @@
 #!/bin/bash
 # csif [-t] computer_num
 # Connect to school computers
-# 	Modes: control computer (default), 't'ransfer files
+# 	Modes: control computer (default), 't'ransfer files, check 's'tatus
+# 	of computers
+# Relies on .ssh/config and sshmount to work properly
 
+mydir="$( dirname -- "${BASH_SOURCE[0]}" )"
 computer_num=32
 transfer_mode=0
-while getopts "t" opt; do
+no_mount=0
+while getopts "stm" opt; do
     case $opt in
-	t)
+	t) # sftp
 	    transfer_mode=1
+	    shift 1
+	    ;;
+	s) # check status
+	    open 'http://iceman.cs.ucdavis.edu/cgi-bin/nagios3/status.cgi?servicegroup=all&style=overview'
+	    exit 0
+	    ;;
+	m) # without mount
+	    no_mount=1
 	    shift 1
 	    ;;
 	\?)
@@ -24,7 +36,14 @@ fi
 echo "Connecting to computer $computer_num..."
 
 if [[ "$transfer_mode" == 1 ]]; then
-    sftp xydxydxy@pc"$computer_num".cs.ucdavis.edu
+    sftp csif"$computer_num"
 else
-    ssh xydxydxy@pc"$computer_num".cs.ucdavis.edu
+    if [[ "$no_mount" == 0 ]]; then
+	mkdir "$HOME/remote/csif$computer_num"
+	sshmount csif"$computer_num"
+	sshunmount csif"$computer_num"
+	rm -rf "$HOME/remote/csif$computer_num"
+    else
+	ssh csif"$computer_num"
+    fi
 fi

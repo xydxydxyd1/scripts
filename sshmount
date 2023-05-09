@@ -1,0 +1,41 @@
+#!/bin/bash
+# Source: https://github.com/wd5gnr/sshmount/blob/master/sshmount
+# modification: exit with 1 if already mounted, 2 if no remote directory
+
+if [ "$1" == "" ]
+then
+  echo 'Usage: sshmount host [ssh_options] - Mount remote home folder on ~/remote/host and log in'
+  echo or: sshunmount host - Remove mount from ~/remote/host
+  exit 1
+fi
+
+
+# if called as sshunmount...
+if [ $(basename "$0")  == sshunmount ]
+then
+  echo Unmounting... 1>&2
+  umount "$HOME/remote/$1"
+  exit $?
+fi  
+
+mnt_status=0
+# normal call...
+if [ -d "$HOME/remote/$1" ]  # does directory exist?
+then
+  if mount | grep "$HOME/remote/$1 "  # already mounted?
+  then
+    echo "Already mounted" 1>&2
+    mnt_status=1
+  else
+    sshfs -o reconnect $1: $HOME/remote/$1   # mount
+  fi
+else
+  echo "No remote directory ~/remote/$1 exists" 1>&2
+  mnt_status=2
+fi  
+ssh $@   # do log in
+exit $mnt_status
+# could do fusermount -u on the mount directory BUT...
+# sort of ugly if more than one ssh is open
+# but without it, the sshfs will persist unless you explicitly unmount
+# instead call script as sshunmount (e.g., ln -s /usr/bin/sshmount /usr/bin/sshunmount)
