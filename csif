@@ -1,15 +1,20 @@
 #!/bin/bash
 # csif [-t] computer_num
 # Connect to school computers
-# 	Modes: control computer (default), 't'ransfer files
+# 	Modes: control computer (default), 't'ransfer files, check 's'tatus
+# 	of computers
 
 computer_num=32
 transfer_mode=0
-while getopts "t" opt; do
+while getopts "st" opt; do
     case $opt in
-	t)
+	t) # sftp
 	    transfer_mode=1
 	    shift 1
+	    ;;
+	s) # check status
+	    open 'http://iceman.cs.ucdavis.edu/cgi-bin/nagios3/status.cgi?servicegroup=all&style=overview'
+	    exit 0
 	    ;;
 	\?)
 	    echo "Invalid option: -$OPTARG" >&2
