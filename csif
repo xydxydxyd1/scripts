@@ -39,11 +39,17 @@ if [[ "$transfer_mode" == 1 ]]; then
     sftp csif"$computer_num"
 else
     if [[ "$no_mount" == 0 ]]; then
-	mkdir "$HOME/remote/csif$computer_num"
-	sshmount csif"$computer_num"
-	sshunmount csif"$computer_num"
-	rm -rf "$HOME/remote/csif$computer_num"
+		mkdir "$HOME/remote/csif$computer_num"
+		sshmount csif"$computer_num"
+
+		# unmount and clean
+		read -r -p 'Unmouunt?' yn
+		if [[ "$yn" != 'y' ]]; then
+			sshunmount csif"$computer_num"
+			rm -rf "$HOME/remote/csif$computer_num"
+			exit 0
+		fi
     else
-	ssh csif"$computer_num"
+		ssh csif"$computer_num"
     fi
 fi
