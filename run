@@ -49,5 +49,10 @@ elif [[ "$lang" == "asm" ]]; then
 
     echo "Running temp.out"
     gdb -tui -ex "b done" "temp.out"
-    rm -rf "temp.out" "temp.o"
+
+    read -r -p "Clean build file? (y/n)" yn
+    if [[ "$yn" !=  y ]]; then
+		rm -rf "temp.out" "temp.o"
+        exit 0
+    fi
 fi
