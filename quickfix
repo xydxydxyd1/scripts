@@ -19,4 +19,5 @@ while [[ "$yn" != 'y' ]]; do
 done
 
 git checkout main
+git pull
 git branch -d "$(git rev-parse --abbrev-ref HEAD)"
