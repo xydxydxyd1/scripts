@@ -8,7 +8,7 @@ if [[ "$#" -lt 1 ]]; then
 fi
 
 cur_branch="$(git rev-parse --abbrev-ref HEAD)"
-read -r -p "On branch $cur_branch, proceed?" yn
+read -r -p "On branch $cur_branch, proceed? " yn
 if [[ "$yn" != 'y' ]]; then
 	exit 1
 fi
