@@ -1,0 +1,22 @@
+#!/bin/bash
+# quickfix commit_msg
+# commit minute change to git project
+
+if [[ "$#" -lt 1 ]]; then
+    echo "Usage: quickfix commit_msg" >&2
+    exit 1
+fi
+
+commit_msg="$1"
+
+git add -A
+ezcommit "$commit_msg"
+firstpush
+
+yn='n'
+while [[ "$yn" != 'y' ]]; do
+	read -r -p 'Merged? ' yn
+done
+
+git checkout main
+git branch -d "$(git rev-parse --abbrev-ref HEAD)"
