@@ -7,6 +7,12 @@ if [[ "$#" -lt 1 ]]; then
     exit 1
 fi
 
+cur_branch="$(git rev-parse --abbrev-ref HEAD)"
+read -r -p "On branch $cur_branch, proceed?" yn
+if [[ "$yn" != 'y' ]]; then
+	exit 1
+fi
+
 commit_msg="$1"
 
 git add -A
@@ -19,4 +25,5 @@ while [[ "$yn" != 'y' ]]; do
 done
 
 git checkout main
+git pull
 git branch -d "$(git rev-parse --abbrev-ref HEAD)"
