@@ -7,8 +7,8 @@ if [[ "$#" -lt 1 ]]; then
     exit 1
 fi
 
-cur_branch="$(git rev-parse --abbrev-ref HEAD)"
-read -r -p "On branch $cur_branch, proceed? " yn
+fix_branch="$(git rev-parse --abbrev-ref HEAD)"
+read -r -p "On branch $fix_branch, proceed? " yn
 if [[ "$yn" != 'y' ]]; then
 	exit 1
 fi
@@ -26,4 +26,4 @@ done
 
 git checkout main
 git pull
-git branch -d "$(git rev-parse --abbrev-ref HEAD)"
+git branch -d "$fix_branch"
