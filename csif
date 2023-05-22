@@ -50,10 +50,13 @@ else
 		sshmount csif"$computer_num"
 
 		# unmount and clean
-		read -r -p 'Unmount?' yn
-		if [[ "$yn" != 'y' ]]; then
+		read -r -p 'Unmount? ' yn
+		if [[ "$yn" == 'y' ]]; then
 			sshunmount csif"$computer_num"
 			rm -rf "$HOME/remote/csif$computer_num"
+			exit 0
+		else
+			echo "Exiting without unmounting..."
 			exit 0
 		fi
     else
