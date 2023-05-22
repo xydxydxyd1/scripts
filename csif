@@ -6,7 +6,6 @@
 # Relies on .ssh/config and sshmount to work properly
 
 mydir="$( dirname -- "${BASH_SOURCE[0]}" )"
-computer_num=32
 transfer_mode=0
 no_mount=0
 while getopts "stm" opt; do
@@ -29,12 +28,20 @@ while getopts "stm" opt; do
     esac
 done
 
-if [[ "$1" ]]; then
-    computer_num="$1"
-fi
+# Check remote status and get computer number
+yn='n'
+open 'http://iceman.cs.ucdavis.edu/cgi-bin/nagios3/status.cgi?servicegroup=all&style=overview'
+while [[ "$yn" != 'y' ]]; do
+	read -r -p 'Checked remote status (y/n): ' yn
+done
+computer_num='n/a'
+while ! [[ "$computer_num" =~ ^[0-9]+$ ]] ; do
+	read -r -p 'Enter computer to connect to: ' computer_num
+done
 
 echo "Connecting to computer $computer_num..."
 
+# Connect
 if [[ "$transfer_mode" == 1 ]]; then
     sftp csif"$computer_num"
 else
@@ -43,10 +50,13 @@ else
 		sshmount csif"$computer_num"
 
 		# unmount and clean
-		read -r -p 'Unmouunt?' yn
-		if [[ "$yn" != 'y' ]]; then
+		read -r -p 'Unmount? ' yn
+		if [[ "$yn" == 'y' ]]; then
 			sshunmount csif"$computer_num"
 			rm -rf "$HOME/remote/csif$computer_num"
+			exit 0
+		else
+			echo "Exiting without unmounting..."
 			exit 0
 		fi
     else
