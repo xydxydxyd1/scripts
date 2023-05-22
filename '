@@ -13,8 +13,7 @@ if [[ "$yn" != 'y' ]]; then
 	exit 1
 fi
 
-url=$(firstpush | grep '^To ' | cut -d ' ' -f2-)
-open "$url"
+url=$(firstpush | grep '^To ' | cut -d ' ' -f1)
 
 yn='n'
 while [[ "$yn" != 'y' ]]; do
