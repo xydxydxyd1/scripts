@@ -1,9 +1,9 @@
 #!/bin/bash
-# quickfix commit_msg
-# commit minute change to git project
+# quickmerge
+# push branch, merge with main, and delete branch
 
-if [[ "$#" -lt 1 ]]; then
-    echo "Usage: quickfix commit_msg" >&2
+if [[ "$#" -ge 1 ]]; then
+    echo "Usage: quickmerge" >&2
     exit 1
 fi
 
@@ -13,10 +13,6 @@ if [[ "$yn" != 'y' ]]; then
 	exit 1
 fi
 
-commit_msg="$1"
-
-git add -A
-ezcommit "$commit_msg"
 firstpush
 
 yn='n'
