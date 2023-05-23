@@ -1,5 +1,5 @@
 #!/bin/bash
-# quickmerge
+# ezmerge
 # push branch, merge with main, and delete branch
 
 if [[ "$#" -ge 1 ]]; then

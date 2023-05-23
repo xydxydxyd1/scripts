@@ -53,6 +53,17 @@ Description:
     git commit -m STRING
 ```
 
+#### ezmerge ####
+```
+Name: ezmerge
+
+Synopsis: ezmerge
+
+Description:
+    Push the current branch, merge to remote, update local main,
+    and then delete the current branch.
+```
+
 #### firstpush ####
 ```
 Name: firstpush
@@ -102,17 +113,6 @@ Synopsis: newsh FILENAME
 Description:
     Set up a new shellscript named FILENAME, initialized with basic
     argument validation and execution permission
-```
-
-#### quickmerge ####
-```
-Name: quickmerge
-
-Synopsis: quickmerge
-
-Description:
-    Push the current branch, merge to remote, update local main,
-    and then delete the current branch.
 ```
 
 #### regex ####
