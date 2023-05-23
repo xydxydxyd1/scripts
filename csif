@@ -8,7 +8,7 @@
 mydir="$( dirname -- "${BASH_SOURCE[0]}" )"
 transfer_mode=0
 no_mount=0
-while getopts "stm" opt; do
+while getopts "stn" opt; do
     case $opt in
 	t) # sftp
 	    transfer_mode=1
@@ -18,7 +18,7 @@ while getopts "stm" opt; do
 	    open 'http://iceman.cs.ucdavis.edu/cgi-bin/nagios3/status.cgi?servicegroup=all&style=overview'
 	    exit 0
 	    ;;
-	m) # without mount
+	n) # without mount
 	    no_mount=1
 	    shift 1
 	    ;;
