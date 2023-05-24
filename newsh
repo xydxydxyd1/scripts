@@ -20,10 +20,6 @@ cat << EOM > "$filename"
 #!/bin/bash
 # ${filename} ${args[*]}
 #
-if [[ "\$#" -ne ${#args[@]} ]]; then
-    echo "Illegal number of parameters" >&2
-    exit 1
-fi
 while getopts "" opt; do
     case \$opt in
 	\?)
@@ -31,6 +27,10 @@ while getopts "" opt; do
 	    ;;
     esac
 done
+if [[ "\$#" -ne ${#args[@]} ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
 EOM
 
 # Setup the rest
