@@ -24,4 +24,9 @@ done
 
 git checkout main
 git pull
+
+read -r -p "Delete $fix_branch? " yn
+if [[ "$yn" != 'y' ]]; then
+	exit 0
+fi
 git branch -d "$fix_branch"
