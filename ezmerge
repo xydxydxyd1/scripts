@@ -14,7 +14,7 @@ if [[ "$yn" != 'y' ]]; then
 fi
 
 firstpush
-url=$(git config remote.origin.url)
+url="$(git config remote.origin.url)/pull/new/$fix_branch"
 open "$url"
 
 yn='n'
