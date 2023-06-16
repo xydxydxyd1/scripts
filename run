@@ -31,14 +31,16 @@ fi
 
 # CXX
 if [[ "$lang" == '' || "$lang" == 'cxx' ]]; then
+	if [[ -z $CXX ]]; then CXX=g++; fi
     if [[ "$debug" ]]; then
-	$CXX "$1" -g $CXXFLAGS
-	shift 1
-	gdb -tui a.out
+		$CXX "$1" -g $CXXFLAGS
+		shift 1
+		if [[ -z $DB ]]; then DB=gdb; fi
+		$DB a.out
     else
-	$CXX "$1" $CXXFLAGS
-	shift 1
-	./a.out "$@"
+		$CXX "$1" $CXXFLAGS
+		shift 1
+		./a.out "$@"
     fi
     rm -rf a.out a.out.dSYM
 # ASM
