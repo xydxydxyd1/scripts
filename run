@@ -36,7 +36,7 @@ if [[ "$lang" == '' || "$lang" == 'cxx' ]]; then
 		$CXX "$1" -g $CXXFLAGS
 		shift 1
 		if [[ -z $DB ]]; then DB=gdb; fi
-		$DB a.out -ex "set args $8"
+		$DB a.out
     else
 		$CXX "$1" $CXXFLAGS
 		shift 1
