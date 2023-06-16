@@ -1,11 +1,16 @@
 #!/bin/bash
 # ezcommit "commit message"
 #
-if [[ "$#" -ne 1 ]]; then
+if [[ "$#" -gt 1 ]]; then
     echo "Illegal number of parameters" >&2
     exit 1
 fi
 
 commit_msg=$1
 git add -A
-git commit -m "$commit_msg"
+
+if [[ $commit_msg ]]; then
+	git commit -m "$commit_msg"
+else
+	git commit
+fi
