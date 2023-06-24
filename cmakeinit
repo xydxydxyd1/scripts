@@ -34,5 +34,3 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)	# For plugins such as ALE
 add_executable(executable)			# TODO
 target_sources(executable PRIVATE source)	# TODO
 EOM
-
-git init
