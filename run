@@ -35,7 +35,7 @@ if [[ "$lang" == '' || "$lang" == 'cxx' ]]; then
     if [[ "$debug" ]]; then
 		$CXX "$1" -g $CXXFLAGS
 		shift 1
-		if [[ -z $DB ]]; then DB=gdb; fi
+		if [[ -z $DB ]]; then DB='gdb -tui'; fi
 		$DB a.out
     else
 		$CXX "$1" $CXXFLAGS

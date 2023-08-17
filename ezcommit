@@ -12,5 +12,5 @@ git add -A
 if [[ $commit_msg ]]; then
 	git commit -m "$commit_msg"
 else
-	git commit
+	git commit -v
 fi

@@ -7,8 +7,6 @@ Scripts
 
 #### cmakeinit ####
 ```
-Name: cmakeinit
-
 Synopsis: cmakeinit
 
 Description:
@@ -25,8 +23,6 @@ Description:
 
 #### csif ####
 ```
-Name: csif
-
 Synopsis: csif OPTIONS...
 
 Description:
@@ -44,8 +40,6 @@ Description:
 
 #### ezcommit ####
 ```
-Name: ezcommit
-
 Synopsis: ezcommit STRING
 
 Description:
@@ -55,8 +49,6 @@ Description:
 
 #### ezmerge ####
 ```
-Name: ezmerge
-
 Synopsis: ezmerge
 
 Description:
@@ -66,8 +58,6 @@ Description:
 
 #### firstpush ####
 ```
-Name: firstpush
-
 Synopsis: firstpush
 
 Description:
@@ -76,8 +66,6 @@ Description:
 
 #### hwtest ####
 ```
-Name: hwtest
-
 Synopsis: hwtest test_case_num
 
 Description:
@@ -86,8 +74,6 @@ Description:
 
 #### lcovgen ####
 ```
-Name: lcovgen
-
 Synopsis: lcovgen
 
 Description:
@@ -96,8 +82,6 @@ Description:
 
 #### lcovinit ####
 ```
-Name: lcovinit
-
 Synopsis: lcovinit
 
 Descrption:
@@ -106,8 +90,6 @@ Descrption:
 
 #### newsh ####
 ```
-Name: newsh
-
 Synopsis: newsh FILENAME
 
 Description:
@@ -117,8 +99,6 @@ Description:
 
 #### regex ####
 ```
-Name: regex
-
 Synopsis: regex REGEX_EXPRESSION STRING
 
 Description:
@@ -127,8 +107,6 @@ Description:
 
 #### run ####
 ```
-Name: run
-
 Synopsis: `run [-x language] [-g] FILE`
 
 Description:
@@ -146,8 +124,6 @@ Description:
 
 #### sshmount ####
 ```
-Name: sshmount
-
 Synopsis: sshmount HOST [SSH_OPTIONS]
 
 Description:
@@ -160,11 +136,28 @@ Author:
 
 #### testscript ####
 ```
-Name: testscript
-
 Synopsis: testscript
 
 Description:
     Prints "the scripts folder is linked!"; used for checking if scripts
     are added to PATH
 ```
+
+#### mark ####
+```
+Synopsis: mark [-d] mark_name [mark_destination]
+
+Description
+    Set a bookmark at \$mk/mark_name that directs to the current directory or mark_destination
+
+OPTIONS
+    -d
+        Delete bookmark with mark_name instead of normal functionality
+```
+
+Note: use `-P` flag when `cd` into symlink to resolve dot-dot. Otherwise, your pwd will look
+like ~/.mk/mark_name instead of ~/some/directory/mark_name, and when you try to go back with
+`cd ..` you will end up in the bookmark directory
+
+Tip: you can bookmark the `.mk` folder in your file explorer to access it easily with GUI too.
+on Ubuntu, you do this by dragging the directory onto the sidebar.
