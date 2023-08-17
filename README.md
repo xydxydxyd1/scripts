@@ -5,7 +5,7 @@ My personal scripts folder; mostly for backup and quick deployment
 Scripts
 =======
 
-#### cmakeinit ####
+# cmakeinit #
 ```
 Synopsis: cmakeinit
 
@@ -21,7 +21,7 @@ Description:
         CMAKE_EXPORT_COMPILE_COMMANDS ON
 ```
 
-#### csif ####
+# csif #
 ```
 Synopsis: csif OPTIONS...
 
@@ -38,7 +38,7 @@ Description:
         SSH without mounting drive
 ```
 
-#### ezcommit ####
+# ezcommit #
 ```
 Synopsis: ezcommit STRING
 
@@ -47,7 +47,7 @@ Description:
     git commit -m STRING
 ```
 
-#### ezmerge ####
+# ezmerge #
 ```
 Synopsis: ezmerge
 
@@ -56,7 +56,7 @@ Description:
     and then delete the current branch.
 ```
 
-#### firstpush ####
+# firstpush #
 ```
 Synopsis: firstpush
 
@@ -64,7 +64,7 @@ Description:
     git push --set-upstream origin current_branch
 ```
 
-#### hwtest ####
+# hwtest #
 ```
 Synopsis: hwtest test_case_num
 
@@ -72,7 +72,7 @@ Description:
     run build/main with input/#.txt, check against expected/#.txt
 ```
 
-#### lcovgen ####
+# lcovgen #
 ```
 Synopsis: lcovgen
 
@@ -80,7 +80,7 @@ Description:
     Generate captured code coverage report
 ```
 
-#### lcovinit ####
+# lcovinit #
 ```
 Synopsis: lcovinit
 
@@ -88,7 +88,7 @@ Descrption:
     Begin capturing code coverage in ./build/
 ```
 
-#### newsh ####
+# newsh #
 ```
 Synopsis: newsh FILENAME
 
@@ -97,7 +97,7 @@ Description:
     argument validation and execution permission
 ```
 
-#### regex ####
+# regex #
 ```
 Synopsis: regex REGEX_EXPRESSION STRING
 
@@ -105,7 +105,7 @@ Description:
     Checks if the expression matches the string.
 ```
 
-#### run ####
+# run #
 ```
 Synopsis: `run [-x language] [-g] FILE`
 
@@ -122,7 +122,7 @@ Description:
         For cxx: instead of running normally, run in gdb.
 ```
 
-#### sshmount ####
+# sshmount #
 ```
 Synopsis: sshmount HOST [SSH_OPTIONS]
 
@@ -134,7 +134,7 @@ Author:
     https://github.com/wd5gnr
 ```
 
-#### testscript ####
+# testscript #
 ```
 Synopsis: testscript
 
@@ -143,21 +143,40 @@ Description:
     are added to PATH
 ```
 
-#### mark ####
+# mark #
+
+`mark [-d] mark_name [mark_destination]`
+
+Set a symlink bookmark at `$HOME/.mk/mark_name` that directs to the current directory or
+`mark_destination`.
+
+## DESCRIPTION
+Bookmarks are stored as symlinks (shortcuts) in $HOME/.mk, and can be accessed like usual:
 ```
-Synopsis: mark [-d] mark_name [mark_destination]
-
-Description
-    Set a bookmark at \$mk/mark_name that directs to the current directory or mark_destination
-
-OPTIONS
-    -d
-        Delete bookmark with mark_name instead of normal functionality
+mv ~/.mk/mark_name1/somefile ~/path/to/destination
+cd -P ~/.mk/mark_name
 ```
 
-Note: use `-P` flag when `cd` into symlink to resolve dot-dot. Otherwise, your pwd will look
-like ~/.mk/mark_name instead of ~/some/directory/mark_name, and when you try to go back with
-`cd ..` you will end up in the bookmark directory
+Use -P flag when cd into symlink to resolve dot-dot. Otherwise, your pwd will look like
+~/.mk/mark_name instead of ~/some/directory/mark_name, and when you try to go back with
+cd .. you will end up in the bookmark directory. You can set an alias in bashrc for
+convenience
+```
+alias cd="cd -P"
+```
 
-Tip: you can bookmark the `.mk` folder in your file explorer to access it easily with GUI too.
-on Ubuntu, you do this by dragging the directory onto the sidebar.
+Bookmarks are stored as symlinks, so moving, deleting, etc. will only apply to the bookmark.
+
+## OPTIONS
+
+##### -d
+Delete bookmark with mark_name instead of normal functionality
+
+## CONFIGURATIONS
+```
+export MK="$HOME/.mk"  # avoid typing out ~/.mk
+alias cd="cd -P"    # Automatically resolves symlinks with cd
+```
+
+You can also bookmark the ~/.mk folder in most GUI file explorers for easy access with GUI
+as well. On Ubuntu, this is done by dragging the folder onto the sidebar.

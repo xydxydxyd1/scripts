@@ -3,11 +3,32 @@
 read -r -d '' usage << EOM
 mark [-d] mark_name [mark_destination]
 
-Set a bookmark at \$mk/mark_name that directs to the current directory or mark_destination
+Set a symlink bookmark at \$HOME/.mk/mark_name that directs to the current directory or mark_destination.
+
+DESCRIPTION
+    Bookmarks are stored as symlinks (shortcuts) in \$HOME/.mk, and can be accessed like usual:
+        mv ~/.mk/mark_name1/somefile ~/path/to/destination
+        cd -P ~/.mk/mark_name
+
+    Use -P flag when cd into symlink to resolve dot-dot. Otherwise, your pwd will look like
+    ~/.mk/mark_name instead of ~/some/directory/mark_name, and when you try to go back with
+    cd .. you will end up in the bookmark directory. You can set an alias in bashrc for
+    convenience
+        alias cd="cd -P"
+
+    Bookmarks are stored as symlinks, so moving, deleting, etc. will only apply to the bookmark.
 
 OPTIONS
     -d
         Delete bookmark with mark_name instead of normal functionality
+
+CONFIGURATIONS
+    bashrc:
+        export MK="\$HOME/.mk"  # avoid typing out ~/.mk
+        alias cd="cd -P"    # Automatically resolves symlinks with cd
+
+    You can also bookmark the ~/.mk folder in most GUI file explorers for easy access with GUI
+    as well. On Ubuntu, this is done by dragging the folder onto the sidebar.
 EOM
 
 # Note: use `-P` flag when `cd` into symlink to resolve dot-dot. Otherwise, your pwd will look
@@ -16,6 +37,10 @@ EOM
 
 # Tip: you can bookmark the `.mk` folder in your file explorer to access it easily with GUI too.
 # on Ubuntu, you do this by dragging the directory onto the sidebar.
+#
+# You can also export your mark folder as an environmental variable in bashrc:
+#   export MK="$HOME/.mk"
+# This way, you can access your bookmarks with `$MK/mark_name`
 
 # Enum indicating mode of command
 # 0: new bookmark; 1: delete bookmark
@@ -36,34 +61,32 @@ while getopts "dh" opt; do
 	    ;;
 	\?)
 	    echo "Invalid option: -$OPTARG" >&2
-        echo "$usage" >&2
+        echo "Try the -h flag for usage" >&2
         exit 1
 	    ;;
     esac
 done
 
 
-# Set default bookmark directory where bookmarks (symlinks) are stored
-[ -n "$mark_folder" ] || mark_folder="$HOME/.mk"
-[ -d "$mark_folder" ] || mkdir "$mark_folder"
-
-# For easy access of bookmarks: $mk/mark_name
-export mk="$mark_folder"
+# Set bookmark directory where bookmarks (symlinks) are stored
+mark_folder="$HOME/.mk"
+if [[ ! -d "$mark_folder" ]]; then
+    mkdir "$mark_folder"
+fi
 
 mark_path="$mark_folder/$1"
 mark_dest="$(pwd)/$2"
-
 case $mode in
-    $MODE_HELP ) # Print usage
+    "$MODE_HELP" ) # Print usage
         echo "$usage" >&2
         ;;
-    $MODE_NEW ) # Create new bookmark
+    "$MODE_NEW" ) # Create new bookmark
         # TODO: Bookmark Description <26-01-23, xydxydxyd1> #
 
         # Validate input
         if [[ "$#" -gt 2 || "$#" -eq 0 ]]; then
             echo "Illegal number of parameters" >&2
-            echo "$usage" >&2
+            echo "Try the -h flag for usage" >&2
             exit 1
         fi
 
@@ -89,7 +112,7 @@ case $mode in
         # Validate input
         if [[ "$#" -ne 1 ]]; then
             echo "Illegal number of parameters" >&2
-            echo "$usage" >&2
+            echo "Try the -h flag for usage" >&2
             exit 1
         fi
 
