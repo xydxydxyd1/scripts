@@ -82,7 +82,7 @@ case $mode in
             rm -f "$mark_path"
         fi
 
-        ln -sr "$mark_dest" "$mark_path"
+        ln -s "$mark_dest" "$mark_path"
         echo "Symlink created: $mark_path --> $mark_dest"
         ;;
     $MODE_DEL ) # Delete bookmark
