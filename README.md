@@ -2,6 +2,8 @@ Overview
 ========
 My personal scripts folder; mostly for backup and quick deployment
 
+Checkout `mark` for bookmarking directories in the CLI to avoid typing long paths.
+
 Scripts
 =======
 
