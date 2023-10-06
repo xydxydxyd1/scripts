@@ -7,6 +7,46 @@ Checkout `mark` for bookmarking directories in the CLI to avoid typing long path
 Scripts
 =======
 
+# mark #
+
+```
+mark [-d] mark_name [mark_destination]
+mark -l
+
+Set a symlink bookmark at $HOME/.mk/mark_name that directs to the current directory or mark_destination.
+
+DESCRIPTION
+    Bookmarks are stored as symlinks (shortcuts) in $HOME/.mk, and can be accessed like usual:
+        mv ~/.mk/mark_name1/somefile ~/path/to/destination
+        cd -P ~/.mk/mark_name
+
+    Use -P flag when cd into symlink to resolve dot-dot. Otherwise, your pwd will look like
+    ~/.mk/mark_name instead of ~/some/directory/mark_name, and when you try to go back with
+    cd .. you will end up in the bookmark directory. You can set an alias in bashrc for
+    convenience
+        alias cd="cd -P"
+
+    Bookmarks are stored as symlinks, so moving, deleting, etc. will only apply to the bookmark.
+
+OPTIONS
+    -d
+        Delete bookmark with mark_name instead of normal functionality
+    -l
+        List all bookmarks available
+
+CONFIGURATIONS
+    bashrc:
+        export MK="$HOME/.mk"  # avoid typing out ~/.mk
+        alias cd="cd -P"    # Automatically resolves symlinks with cd
+
+    You can also bookmark the ~/.mk folder in most GUI file explorers for easy access with GUI
+    as well. On Ubuntu, this is done by dragging the folder onto the sidebar.
+`mark [-d] mark_name [mark_destination]`
+
+Set a symlink bookmark at `$HOME/.mk/mark_name` that directs to the current directory or
+`mark_destination`.
+```
+
 # cmakeinit #
 ```
 Synopsis: cmakeinit
@@ -144,41 +184,3 @@ Description:
     Prints "the scripts folder is linked!"; used for checking if scripts
     are added to PATH
 ```
-
-# mark #
-
-`mark [-d] mark_name [mark_destination]`
-
-Set a symlink bookmark at `$HOME/.mk/mark_name` that directs to the current directory or
-`mark_destination`.
-
-## DESCRIPTION
-Bookmarks are stored as symlinks (shortcuts) in $HOME/.mk, and can be accessed like usual:
-```
-mv ~/.mk/mark_name1/somefile ~/path/to/destination
-cd -P ~/.mk/mark_name
-```
-
-Use -P flag when cd into symlink to resolve dot-dot. Otherwise, your pwd will look like
-~/.mk/mark_name instead of ~/some/directory/mark_name, and when you try to go back with
-cd .. you will end up in the bookmark directory. You can set an alias in bashrc for
-convenience
-```
-alias cd="cd -P"
-```
-
-Bookmarks are stored as symlinks, so moving, deleting, etc. will only apply to the bookmark.
-
-## OPTIONS
-
-##### -d
-Delete bookmark with mark_name instead of normal functionality
-
-## CONFIGURATIONS
-```
-export MK="$HOME/.mk"  # avoid typing out ~/.mk
-alias cd="cd -P"    # Automatically resolves symlinks with cd
-```
-
-You can also bookmark the ~/.mk folder in most GUI file explorers for easy access with GUI
-as well. On Ubuntu, this is done by dragging the folder onto the sidebar.
