@@ -2,6 +2,7 @@
 
 read -r -d '' usage << EOM
 mark [-d] mark_name [mark_destination]
+mark -l
 
 Set a symlink bookmark at \$HOME/.mk/mark_name that directs to the current directory or mark_destination.
 
@@ -21,6 +22,8 @@ DESCRIPTION
 OPTIONS
     -d
         Delete bookmark with mark_name instead of normal functionality
+    -l
+        List all bookmarks available
 
 CONFIGURATIONS
     bashrc:
@@ -47,9 +50,10 @@ EOM
 readonly MODE_NEW=0;
 readonly MODE_DEL=1;
 readonly MODE_HELP=2;
+readonly MODE_LIST=3;
 mode=$MODE_NEW
 
-while getopts "dh" opt; do
+while getopts "dhl" opt; do
     case $opt in
 	d)
         mode=$MODE_DEL
@@ -59,6 +63,10 @@ while getopts "dh" opt; do
         mode=$MODE_HELP
         shift 1
 	    ;;
+    l)
+        mode=$MODE_LIST
+        shift 1
+        ;;
 	\?)
 	    echo "Invalid option: -$OPTARG" >&2
         echo "Try the -h flag for usage" >&2
@@ -108,7 +116,7 @@ case $mode in
         ln -s "$mark_dest" "$mark_path"
         echo "Symlink created: $mark_path --> $mark_dest"
         ;;
-    $MODE_DEL ) # Delete bookmark
+    "$MODE_DEL" ) # Delete bookmark
         # Validate input
         if [[ "$#" -ne 1 ]]; then
             echo "Illegal number of parameters" >&2
@@ -126,6 +134,9 @@ case $mode in
             echo "Aborting..."
         fi
         rm -f "$mark_path"
+        ;;
+    "$MODE_LIST" ) # List all bookmarks
+        ls -l "$mark_folder"
         ;;
 esac
 
