@@ -124,7 +124,7 @@ case $mode in
             exit 1
         fi
 
-        if [[ ! -e "$mark_path" ]]; then
+        if [[ ! -h "$mark_path" ]]; then
             echo "$mark_path does not exist"
             exit 1
         fi
