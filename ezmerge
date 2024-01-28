@@ -14,7 +14,7 @@ if [[ "$yn" != 'y' ]]; then
 fi
 
 firstpush
-open "$(git config remote.origin.url)"
+xdg-open "$(git config remote.origin.url)"
 
 yn='n'
 while [[ "$yn" != 'y' ]]; do
