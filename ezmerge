@@ -22,6 +22,9 @@ while [[ "$yn" != 'y' ]]; do
 done
 
 git checkout main
+if [[ $? -ne 0 ]]; then
+    git checkout master
+fi
 git pull
 
 read -r -p "Delete $fix_branch? " yn
