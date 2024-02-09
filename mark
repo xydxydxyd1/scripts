@@ -104,7 +104,7 @@ case $mode in
         fi
 
         # Option for overriding existing bookmark
-        if [[ -e $mark_path ]]; then
+        if [[ -L $mark_path ]]; then
             read -r -p 'Mark already exists. Override (y/n)? ' yn
             if [[ "$yn" != 'y' ]]; then
                 echo 'Aborting...'
