@@ -1,0 +1,19 @@
+#!/bin/bash
+# jupytervenv 
+#
+while getopts "" opt; do
+    case $opt in
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    ;;
+    esac
+done
+if [[ "$#" -ne 0 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+source .venv/bin/activate
+pip install ipykernel
+python -m ipykernel install --user --name=".venv"
+jupyter lab

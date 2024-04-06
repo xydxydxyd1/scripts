@@ -184,3 +184,13 @@ Description:
     Prints "the scripts folder is linked!"; used for checking if scripts
     are added to PATH
 ```
+
+# jupytervenv
+```
+Synopsis: jupytervenv
+
+Description:
+    Set up jupyter kernel in virtual environment located at ./venv and
+    start jupyter lab
+```
+
