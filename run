@@ -20,7 +20,7 @@ while getopts "x:g" opt; do
     esac
 done
 
-# check for safe environment
+# Check for files that may be overwritten
 if [[ -f temp.o || -f temp.out ]]; then
     read -r -p "temp may be deleted. Proceed? (y/n)" yn
     if [[ "$yn" !=  y ]]; then
@@ -29,32 +29,67 @@ if [[ -f temp.o || -f temp.out ]]; then
     fi
 fi
 
-# CXX
-if [[ "$lang" == '' || "$lang" == 'cxx' ]]; then
-	if [[ -z $CXX ]]; then CXX=g++; fi
-    if [[ "$debug" ]]; then
-		$CXX "$1" -g $CXXFLAGS
-		shift 1
-		if [[ -z $DB ]]; then DB='gdb -tui'; fi
-		$DB a.out
-    else
-		$CXX "$1" $CXXFLAGS
-		shift 1
-		./a.out "$@"
-    fi
-    rm -rf a.out a.out.dSYM
-# ASM
-elif [[ "$lang" == "asm" ]]; then
-    echo "Assembling $1..."
-    as --gstabs --32 -o "temp.o" "$1"
-    ld -melf_i386 -o "temp.out" "temp.o"
-
-    echo "Running temp.out"
-    gdb -tui -ex "b done" "temp.out"
-
-    read -r -p "Clean build file? (y/n)" yn
-    if [[ "$yn" !=  y ]]; then
-		rm -rf "temp.out" "temp.o"
-        exit 0
-    fi
+# Process arguments
+file=$1
+if [[ $file =~ ^(.+)\.([^.]+)$ ]]; then
+    filename="${BASH_REMATCH[1]}"
+    file_ext="${BASH_REMATCH[2]}"
+else
+    filename="$file"
 fi
+
+# Assign language based on extension
+if [[ "$lang" = '' ]]; then
+    case $file_ext in
+        "cpp" )
+            lang="cxx"
+            ;;
+        "s" )
+            lang="asm"
+            ;;
+        "rs" )
+            lang="rust"
+            ;;
+        * )
+            echo "No valid language specified by file extension or flag"
+            exit 1
+            ;;
+    esac
+fi
+
+case $lang in
+    "cxx" )
+        if [[ -z $CXX ]]; then CXX=g++; fi
+        if [[ "$debug" ]]; then
+            $CXX "$1" -g $CXXFLAGS
+            shift 1
+            if [[ -z $DB ]]; then DB='gdb -tui'; fi
+            $DB a.out
+        else
+            $CXX "$1" $CXXFLAGS
+            shift 1
+            ./a.out "$@"
+        fi
+        rm -rf a.out a.out.dSYM
+        ;;
+    "asm" )
+        echo "Assembling $1..."
+        as --gstabs --32 -o "temp.o" "$1"
+        ld -melf_i386 -o "temp.out" "temp.o"
+
+        echo "Running temp.out"
+        gdb -tui -ex "b done" "temp.out"
+
+        read -r -p "Clean build file? (y/n)" yn
+        if [[ "$yn" !=  y ]]; then
+            rm -rf "temp.out" "temp.o"
+            exit 0
+        fi
+        ;;
+    "rust" )
+        rustc $file -o "temp.out"
+        ./temp.out
+        rm -rf "temp.out"
+        exit 0
+        ;;
+esac

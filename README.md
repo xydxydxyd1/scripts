@@ -107,6 +107,7 @@ Description:
 ```
 
 # hwtest #
+
 ```
 Synopsis: hwtest test_case_num
 
@@ -149,16 +150,17 @@ Description:
 
 # run #
 ```
-Synopsis: `run [-x language] [-g] FILE`
+Synopsis: `run [-x language] [-g] <FILE>`
 
 Description:
-    Quickly run and build FILE.
+    Quickly run FILE.
 
     When running assembly, automatically starts gdb
 
     -x language
-        Compile with specified language.
-        Supported: cxx, asm
+        Compile with specified language. If no language is specified,
+        use the file extension to determine the language.
+        Supported: cxx, asm, rust
 
     -g
         For cxx: instead of running normally, run in gdb.
@@ -194,3 +196,10 @@ Description:
     start jupyter lab
 ```
 
+# gitundo
+```
+Synopsis: gitundo
+
+Description:
+    Undoes the last commit and keeps the changes
+```
