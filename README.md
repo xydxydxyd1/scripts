@@ -2,7 +2,8 @@ Overview
 ========
 My personal scripts folder; mostly for backup and quick deployment
 
-Checkout `mark` for bookmarking directories in the CLI to avoid typing long paths.
+Checkout `mark` for bookmarking directories in the CLI to avoid typing long
+paths, and `run` for a universal code runner
 
 Scripts
 =======

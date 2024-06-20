@@ -44,6 +44,9 @@ if [[ "$lang" = '' ]]; then
         "cpp" )
             lang="cxx"
             ;;
+        "c" )
+            lang="c"
+            ;;
         "s" )
             lang="asm"
             ;;
@@ -67,6 +70,20 @@ case $lang in
             $DB a.out
         else
             $CXX "$1" $CXXFLAGS
+            shift 1
+            ./a.out "$@"
+        fi
+        rm -rf a.out a.out.dSYM
+        ;;
+    "c" )
+        if [[ -z $CC ]]; then CC=gcc; fi
+        if [[ "$debug" ]]; then
+            $CC "$1" -g $CCFLAGS
+            shift 1
+            if [[ -z $DB ]]; then DB='gdb -tui'; fi
+            $DB a.out
+        else
+            $CC "$1" $CCFLAGS
             shift 1
             ./a.out "$@"
         fi
