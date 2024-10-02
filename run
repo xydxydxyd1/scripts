@@ -64,16 +64,16 @@ case $lang in
     "cxx" )
         if [[ -z $CXX ]]; then CXX=g++; fi
         if [[ "$debug" ]]; then
-            $CXX "$1" -g $CXXFLAGS
+            $CXX "$1" -g $CXXFLAGS -o "$filename.out"
             shift 1
             if [[ -z $DB ]]; then DB='gdb -tui'; fi
-            $DB a.out
+            $DB "$filename.out"
         else
-            $CXX "$1" $CXXFLAGS
+            $CXX "$1" $CXXFLAGS -o "$filename.out"
             shift 1
-            ./a.out "$@"
+            ./"$filename.out" "$@"
         fi
-        rm -rf a.out a.out.dSYM
+        rm -rf "$filename.out" "$filename.out.dSYM"
         ;;
     "c" )
         if [[ -z $CC ]]; then CC=gcc; fi
