@@ -1,7 +1,7 @@
 #!/bin/bash
 
 read -r -d '' usage << EOM
-mark [-d] mark_name [mark_destination]
+mark [-d] [mark_name [mark_destination]]
 mark -l
 
 Set a symlink bookmark at \$HOME/.mk/mark_name that directs to the current directory or mark_destination.
@@ -18,6 +18,8 @@ DESCRIPTION
         alias cd="cd -P"
 
     Bookmarks are stored as symlinks, so moving, deleting, etc. will only apply to the bookmark.
+    
+    When not given any arguments, set default mark \$mk/a -> cwd
 
 OPTIONS
     -d
@@ -82,7 +84,7 @@ if [[ ! -d "$mark_folder" ]]; then
     mkdir "$mark_folder"
 fi
 
-mark_path="$mark_folder/$1"
+mark_path="$mark_folder/${1:-a}"
 mark_dest="$(pwd)/$2"
 case $mode in
     "$MODE_HELP" ) # Print usage
@@ -92,7 +94,7 @@ case $mode in
         # TODO: Bookmark Description <26-01-23, xydxydxyd1> #
 
         # Validate input
-        if [[ "$#" -gt 2 || "$#" -eq 0 ]]; then
+        if [[ "$#" -gt 2 ]]; then
             echo "Illegal number of parameters" >&2
             echo "Try the -h flag for usage" >&2
             exit 1
@@ -104,15 +106,14 @@ case $mode in
         fi
 
         # Option for overriding existing bookmark
-        if [[ -L $mark_path ]]; then
+        if [[ (-L $mark_path) && ($mark_path != "$mark_folder/a") ]]; then
             read -r -p 'Mark already exists. Override (y/n)? ' yn
             if [[ "$yn" != 'y' ]]; then
                 echo 'Aborting...'
                 exit 1
             fi
-            rm -f "$mark_path"
         fi
-
+        rm -f "$mark_path"
         ln -s "$mark_dest" "$mark_path"
         echo "Symlink created: $mark_path --> $mark_dest"
         ;;
