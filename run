@@ -104,9 +104,9 @@ case $lang in
         fi
         ;;
     "rust" )
-        rustc $file -o "temp.out"
-        ./temp.out
-        rm -rf "temp.out"
+        rustc $file -o "$filename.out"
+        ./"$filename.out"
+        rm -rf "$filename.out"
         exit 0
         ;;
 esac
