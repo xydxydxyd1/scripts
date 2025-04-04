@@ -1,0 +1,46 @@
+#!/bin/bash
+# extract FILE
+#
+while getopts "" opt; do
+    case $opt in
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    ;;
+    esac
+done
+if [[ "$#" -ne 1 ]]; then
+    echo "Illegal number of parameters" >&2
+    exit 1
+fi
+
+# Process file path
+file=$1
+if [[ $file =~ ^(.+)\.([^.]+)$ ]]; then
+    filename="${BASH_REMATCH[1]}"
+    file_ext="${BASH_REMATCH[2]}"
+else
+    filename="$file"
+fi
+case $file_ext in
+    "xz" )
+        if [[ $filename =~ ^(.+)\.([^.]+)$ ]]; then
+            filename="${BASH_REMATCH[1]}"
+            file_ext2="${BASH_REMATCH[2]}"
+            if [[ $file_ext2 = 'tar' ]]; then
+                tar -xJf $file
+            fi
+        else
+            xz -d $file
+        fi
+        ;;
+    "tar" )
+        tar -xf $file
+        ;;
+    "zip" )
+        unzip $file
+        ;;
+    * )
+        echo "No valid format specified by file extension or flag"
+        exit 1
+        ;;
+esac
