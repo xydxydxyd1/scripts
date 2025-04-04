@@ -27,16 +27,20 @@ case $file_ext in
             filename="${BASH_REMATCH[1]}"
             file_ext2="${BASH_REMATCH[2]}"
             if [[ $file_ext2 = 'tar' ]]; then
+                echo "Extracting TAR XZ file..."
                 tar -xJf $file
+                exit 0
             fi
-        else
-            xz -d $file
         fi
+        echo "Extracting XZ file..."
+        xz -d $file
         ;;
     "tar" )
+        echo "Extracting TAR file..."
         tar -xf $file
         ;;
     "zip" )
+        echo "Extracting ZIP file..."
         unzip $file
         ;;
     * )
