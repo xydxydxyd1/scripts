@@ -35,6 +35,19 @@ case $file_ext in
         echo "Extracting XZ file..."
         xz -d $file
         ;;
+    "gz" )
+        if [[ $filename =~ ^(.+)\.([^.]+)$ ]]; then
+            filename="${BASH_REMATCH[1]}"
+            file_ext2="${BASH_REMATCH[2]}"
+            if [[ $file_ext2 = 'tar' ]]; then
+                echo "Extracting TAR GZ file..."
+                tar -xzvf $file
+                exit 0
+            fi
+        fi
+        echo "Extracting GZ file..."
+        gunzip $file
+        ;;
     "tar" )
         echo "Extracting TAR file..."
         tar -xf $file
