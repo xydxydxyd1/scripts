@@ -35,6 +35,11 @@ case $file_ext in
         echo "Extracting XZ file..."
         xz -d $file
         ;;
+    "tgz" )
+        echo "Extracting TGZ file..."
+        tar -xzvf $file
+        exit 0
+        ;;
     "gz" )
         if [[ $filename =~ ^(.+)\.([^.]+)$ ]]; then
             filename="${BASH_REMATCH[1]}"
