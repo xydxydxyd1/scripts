@@ -25,51 +25,51 @@ fi
 
 # Process file path
 file=$1
-if [[ $file =~ ^(.+)\.([^.]+)$ ]]; then
+if [[ "$file" =~ ^(.+)\.([^.]+)$ ]]; then
     filename="${BASH_REMATCH[1]}"
     file_ext="${BASH_REMATCH[2]}"
 else
     filename="$file"
 fi
-case $file_ext in
+case "$file_ext" in
     "xz" )
-        if [[ $filename =~ ^(.+)\.([^.]+)$ ]]; then
+        if [[ "$filename" =~ ^(.+)\.([^.]+)$ ]]; then
             filename="${BASH_REMATCH[1]}"
             file_ext2="${BASH_REMATCH[2]}"
-            if [[ $file_ext2 = 'tar' ]]; then
+            if [[ "$file_ext2" = 'tar' ]]; then
                 echo "Extracting TAR XZ file..."
-                tar -xJf $file
+                tar -xJf "$file"
                 exit 0
             fi
         fi
         echo "Extracting XZ file..."
-        xz -d $file
+        xz -d "$file"
         ;;
     "tgz" )
         echo "Extracting TGZ file..."
-        tar -xzvf $file
+        tar -xzvf "$file"
         exit 0
         ;;
     "gz" )
-        if [[ $filename =~ ^(.+)\.([^.]+)$ ]]; then
+        if [[ "$filename" =~ ^(.+)\.([^.]+)$ ]]; then
             filename="${BASH_REMATCH[1]}"
             file_ext2="${BASH_REMATCH[2]}"
-            if [[ $file_ext2 = 'tar' ]]; then
+            if [[ "$file_ext2" = 'tar' ]]; then
                 echo "Extracting TAR GZ file..."
-                tar -xzvf $file
+                tar -xzvf "$file"
                 exit 0
             fi
         fi
         echo "Extracting GZ file..."
-        gunzip $file
+        gunzip "$file"
         ;;
     "tar" )
         echo "Extracting TAR file..."
-        tar -xf $file
+        tar -xf "$file"
         ;;
     "zip" )
         echo "Extracting ZIP file..."
-        unzip $file
+        unzip "$file"
         ;;
     * )
         echo "No valid format specified by file extension or flag"
